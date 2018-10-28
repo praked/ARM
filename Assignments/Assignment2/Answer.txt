@@ -1,0 +1,22 @@
+
+1) While carefully going through the Cortex-M3/M4F Instruction Set Manual Looking for Branch and control Instructions
+I came across section 9.3 dedicated to IT(if-then) instruction and I found there were some restrictions to the use of
+'IT' instruction which were mentioned in subsection 9.3.3 titled 'Restrictions'.
+
+2) It tells us that 'Each instruction inside the IT block must specify a condition code suffix that is either the same
+or the logical inverse.' which means the instructions inside the IT/ITE block should have a condition code 
+suffix 'LT' associated with it.
+
+3) As we see that is not true for the case of 'Code1' in which the block has MOV instructions whereas 'Code2' have a condition code 
+suffix 'LT' associated with instructions ADD, MOV and 'GE' with instruction SUB which is consistent with the 'IT' restrictions. Hence, only Code1
+builds with 4 errors.  
+
+4) So inorder to remove the error we must append conditional code "LT" to "MOV" instruction for "IT" part i.e 3 "MOV" Instructions following ITTTE should be
+appended by "LT"and append "GE" to "MOV" instruction for "Else" part since the ELSE condition must be the inverse of the THEN condition these two fields
+differ only in the LSB of the encoding.
+Corrected sequence is:
+ITTTE LT ; or N != V
+MOVLT R3, #0x100
+MOVLT R8, #0x200
+MOVLT R7, #0x200
+MOVGE R6, #0x200
