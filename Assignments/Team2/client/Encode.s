@@ -1,0 +1,41 @@
+  AREA appcode, CODE, READONLY
+		export __main
+		
+		ENTRY
+__main  function
+		LDR R3,=0X20000011;
+		LDR R2,=0X20002001;
+		MOV R4,#10; MAX X
+		MOV R5,#5;  MAX Y
+		MOV R6,#8; ASSUMING THE ALL NUMBERS TO BE 1 BYTE IN SIZE
+		MUL R4,R4,R5;
+		MUL R4,R4,R6; R7 HAS TOTAL NO. OF BITS
+		MOV R7,#0; ITERATOR
+		MOV R8,#0;
+ENCODE 	CMP R7, R5 ;
+		BEQ STOP
+		LDRB R1,[R3,R7]
+		STRB R1,[R2,R8]
+		ADD  R7,R7,#1
+		ADD  R8,R8,#1
+		LDRB R5,[R3,R7]
+		STRB R5,[R2,R8]
+		ADD  R7,R7,#1
+		ADD  R8,R8,#1
+		LDRB R6,[R3,R7]
+		STRB R6,[R2,R8]
+		ADD  R7,R7,#1
+		ADD  R8,R8,#1
+		EOR R9,R1,R5;
+		STRB R9,[R2,R8]
+		ADD  R8,R8,#1
+		EOR R9,R6,R5;
+		STRB R9,[R2,R8]
+		ADD  R8,R8,#1
+		EOR R9,R1,R6;
+		STRB R9,[R2,R8]
+		ADD  R8,R8,#1
+		B    ENCODE        
+STOP    B STOP ; stop program
+     ENDFUNC
+	 END		 
