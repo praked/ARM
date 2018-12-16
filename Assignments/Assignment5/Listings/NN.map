@@ -1,0 +1,83 @@
+Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
+
+==============================================================================
+
+Section Cross References
+
+    printmsg.o(i.printMSG) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    printmsg.o(i.printMSG) refers to _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) for _printf_x
+    printmsg.o(i.printMSG) refers to _printf_hex_int.o(.text) for _printf_longlong_hex
+    printmsg.o(i.printMSG) refers to noretval__2sprintf.o(.text) for __2sprintf
+    printtt.o(i.printTT) refers to printtt.o(.bss) for Msg
+    startup_armcm4.o(STACK) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    startup_armcm4.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    startup_armcm4.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    startup_armcm4.o(RESET) refers to startup_armcm4.o(STACK) for __initial_sp
+    startup_armcm4.o(RESET) refers to startup_armcm4.o(.text) for Reset_Handler
+    startup_armcm4.o(.text) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    startup_armcm4.o(.text) refers to system_armcm4.o(i.SystemInit) for SystemInit
+    startup_armcm4.o(.text) refers to nn.o(appcode) for __main
+    startup_armcm4.o(.text) refers to startup_armcm4.o(HEAP) for Heap_Mem
+    startup_armcm4.o(.text) refers to startup_armcm4.o(STACK) for Stack_Mem
+    system_armcm4.o(i.SystemCoreClockUpdate) refers to system_armcm4.o(.data) for SystemCoreClock
+    system_armcm4.o(i.SystemInit) refers to startup_armcm4.o(RESET) for __Vectors
+    system_armcm4.o(i.SystemInit) refers to system_armcm4.o(.data) for SystemCoreClock
+    __2sprintf.o(.text) refers to _printf_char_common.o(.text) for _printf_char_common
+    __2sprintf.o(.text) refers to _sputc.o(.text) for _sputc
+    noretval__2sprintf.o(.text) refers to _printf_char_common.o(.text) for _printf_char_common
+    noretval__2sprintf.o(.text) refers to _sputc.o(.text) for _sputc
+    __printf.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    _printf_hex_ll.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_ll.o(.text) refers to _printf_hex_ll.o(.constdata) for .constdata
+    _printf_hex_int.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_int.o(.text) refers to _printf_hex_int.o(.constdata) for .constdata
+    _printf_hex_int_ll.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_int_ll.o(.text) refers to _printf_hex_int_ll.o(.constdata) for .constdata
+    _printf_hex_ptr.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_ptr.o(.text) refers to _printf_hex_ptr.o(.constdata) for .constdata
+    _printf_hex_int_ptr.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_int_ptr.o(.text) refers to _printf_hex_int_ptr.o(.constdata) for .constdata
+    _printf_hex_ll_ptr.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_ll_ptr.o(.text) refers to _printf_hex_ll_ptr.o(.constdata) for .constdata
+    _printf_hex_int_ll_ptr.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    _printf_hex_int_ll_ptr.o(.text) refers to _printf_hex_int_ll_ptr.o(.constdata) for .constdata
+    __printf_flags.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags.o(.text) refers to __printf_flags.o(.constdata) for .constdata
+    __printf_ss.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss.o(.text) refers to __printf_flags_ss.o(.constdata) for .constdata
+    __printf_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_flags_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_wp.o(.text) refers to __printf_flags_wp.o(.constdata) for .constdata
+    __printf_ss_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_ss_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_flags_ss_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss_wp.o(.text) refers to __printf_flags_ss_wp.o(.constdata) for .constdata
+    _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) refers (Weak) to _printf_hex_int.o(.text) for _printf_int_hex
+    _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) refers (Special) to _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017) for _printf_percent_end
+    _printf_char_common.o(.text) refers to __printf.o(.text) for __printf
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing printmsg.o(.rev16_text), (4 bytes).
+    Removing printmsg.o(.revsh_text), (4 bytes).
+    Removing printmsg.o(.rrx_text), (6 bytes).
+    Removing printmsg.o(i.printMSG), (88 bytes).
+    Removing printtt.o(.rev16_text), (4 bytes).
+    Removing printtt.o(.revsh_text), (4 bytes).
+    Removing printtt.o(.rrx_text), (6 bytes).
+    Removing printtt.o(i.printTT), (140 bytes).
+    Removing printtt.o(.bss), (100 bytes).
+    Removing printtt.o(.data), (2 bytes).
+    Removing system_armcm4.o(.rev16_text), (4 bytes).
+    Removing system_armcm4.o(.revsh_text), (4 bytes).
+    Removing system_armcm4.o(.rrx_text), (6 bytes).
+    Removing system_armcm4.o(i.SystemCoreClockUpdate), (16 bytes).
+
+14 unused section(s) (total 388 bytes) removed from the image.

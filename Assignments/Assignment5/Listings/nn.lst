@@ -1,0 +1,332 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; PRANAV KEDIA - IMT2015518
+    2 00000000         ; ARM Cortex M4 assembly code for Nueral Net
+    3 00000000                 AREA             appcode, CODE, READONLY
+    4 00000000                 export           __main
+    5 00000000                 IMPORT           printMSG
+    6 00000000                 IMPORT           printTT
+    7 00000000                 ENTRY
+    8 00000000         __main  function
+    9 00000000 EEB7 0A00       VLDR.F32         s0 , =1     ;X0 DATA
+   10 00000004 EEF7 0A00       VLDR.F32         s1 , =1     ;X1 DATA
+   11 00000008 EEB7 1A00       VLDR.F32         s2 , =1     ;X2 DATA 
+   12 0000000C F04F 0900       MOV              R9 ,#0
+   13 00000010 F04F 0700       MOV              R7 ,#0
+   14 00000014 F04F 0C00       MOV              R12,#0
+   15 00000018 F20F 00A2 
+                       startagain
+                               ADR.W            r0 , BranchTable_Byte
+   16 0000001C 4661            MOV              r1 , R12    ;r1 will take numbe
+                                                            r to select logic .
+                                                            0-Nand ,1-Nor like 
+                                                            that
+   17 0000001E E8D0 F001       TBB              [r0 , r1 ]
+   18 00000022 ED9F EA7A 
+                       NAND_LOGIC
+                               VLDR.F32         s28 ,=0.6   ;WEIGHT W1   
+   19 00000026 EDDF EA7A       VLDR.F32         s29 ,=-0.8  ;WEIGHT W2   
+   20 0000002A ED9F FA79       VLDR.F32         s30 ,=-0.8  ;WEIGHT W3
+   21 0000002E EDDF FA79       VLDR.F32         s31 ,=0.3   ;BIAS   
+   22 00000032 E035            B                X_CALCULATION
+   23 00000034         
+   24 00000034         
+   25 00000034 EEB6 EA00 
+                       NOR_LOGIC
+                               VLDR.F32         s28 ,=0.5   ;WEIGHT W1   
+   26 00000038 EDDF EA77       VLDR.F32         s29 ,=-0.7  ;WEIGHT W2   
+   27 0000003C ED9F FA76       VLDR.F32         s30 ,=-0.7  ;WEIGHT W3
+   28 00000040 EDDF FA76       VLDR.F32         s31 ,=0.1   ;BIAS   
+   29 00000044 E02C            B                X_CALCULATION
+   30 00000046         
+   31 00000046 ED9F EA76 
+                       AND_LOGIC
+                               VLDR.F32         s28 ,=-0.1  ;WEIGHT W1   
+   32 0000004A EDDF EA76       VLDR.F32         s29 ,=0.2   ;WEIGHT W2   
+   33 0000004E ED9F FA75       VLDR.F32         s30 ,=0.2   ;WEIGHT W3
+   34 00000052 EDDF FA75       VLDR.F32         s31 ,=-0.2  ;BIAS   
+   35 00000056 E023            B                X_CALCULATION
+   36 00000058         
+   37 00000058 ED9F EA71 
+                       OR_LOGIC
+                               VLDR.F32         s28 ,=-0.1  ;WEIGHT W1   
+   38 0000005C EDDF EA73       VLDR.F32         s29 ,=0.7   ;WEIGHT W2   
+   39 00000060 ED9F FA72       VLDR.F32         s30 ,=0.7   ;WEIGHT W3
+   40 00000064 EDDF FA6E       VLDR.F32         s31 ,=-0.1  ;BIAS      
+   41 00000068 E01A            B                X_CALCULATION
+   42 0000006A         
+   43 0000006A EEB9 EA04 
+                       XOR_LOGIC
+                               VLDR.F32         s28 ,=-5    ;WEIGHT W1   
+   44 0000006E EEF3 EA04       VLDR.F32         s29 ,=20    ;WEIGHT W2   
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   45 00000072 EEB2 FA04       VLDR.F32         s30 ,=10    ;WEIGHT W3
+   46 00000076 EEF7 FA00       VLDR.F32         s31 ,=1     ;BIAS   
+   47 0000007A E011            B                X_CALCULATION
+   48 0000007C         
+   49 0000007C EEB9 EA04 
+                       XNOR_LOGIC
+                               VLDR.F32         s28 ,=-5    ;WEIGHT W1   
+   50 00000080 EEF3 EA04       VLDR.F32         s29 ,=20    ;WEIGHT W2   
+   51 00000084 EEB2 FA04       VLDR.F32         s30 ,=10    ;WEIGHT W3
+   52 00000088 EEF7 FA00       VLDR.F32         s31 ,=1     ;BIAS   
+   53 0000008C E008            B                X_CALCULATION
+   54 0000008E         
+   55 0000008E EEB6 EA00 
+                       NOT_LOGIC
+                               VLDR.F32         s28 ,=0.5   ;WEIGHT W1   
+   56 00000092 EDDF EA61       VLDR.F32         s29 ,=-0.7  ;WEIGHT W2   
+   57 00000096 ED9F FA66       VLDR.F32         s30 ,=0     ;WEIGHT W3
+   58 0000009A EDDF FA60       VLDR.F32         s31 ,=0.1   ;BIAS   
+   59 0000009E E7FF            B                X_CALCULATION
+   60 000000A0         
+   61 000000A0 EE20 7A0E 
+                       X_CALCULATION
+                               VMUL.F32         s14 , s0 ,s28 ;S15 WILL HAVE SU
+                                                            M OF WEIGHTS
+   62 000000A4 EE77 7A87       VADD.F32         s15  , s15 ,s14
+   63 000000A8 EE20 7AAE       VMUL.F32         s14 , s1 ,s29
+   64 000000AC EE77 7A87       VADD.F32         s15  , s15 ,s14
+   65 000000B0 EE21 7A0F       VMUL.F32         s14 , s2 ,s30
+   66 000000B4 EE77 7A87       VADD.F32         s15  , s15 ,s14
+   67 000000B8 EE77 7AAF       VADD.F32         s15 , s15,s31
+   68 000000BC E003            B                SIGMOID
+   69 000000BE         BranchTable_Byte
+   70 000000BE 00              DCB              0
+   71 000000BF 09              DCB              ((NOR_LOGIC-NAND_LOGIC)/2)
+   72 000000C0 12              DCB              ((AND_LOGIC-NAND_LOGIC)/2)
+   73 000000C1 1B              DCB              ((OR_LOGIC-NAND_LOGIC)/2)
+   74 000000C2 24              DCB              ((XOR_LOGIC-NAND_LOGIC)/2)
+   75 000000C3 2D              DCB              ((XNOR_LOGIC-NAND_LOGIC)/2)
+   76 000000C4 36              DCB              ((NOT_LOGIC-NAND_LOGIC)/2)
+   77 000000C5 00 F04F 
+              5000     SIGMOID MOV              r0 , #0x20000000 ; location wil
+                                                            l have value of 1  
+                                                            
+   78 000000CA EEF0 0A67       VMOV.F32         s1 , s15    ;s1 will keep refer
+                                                            ence of x
+   79 000000CE F04F 537E       MOV              r3 ,#0x3f800000 ;Taking constan
+                                                            t number 1.
+   80 000000D2 6003            STR              r3 , [r0]
+   81 000000D4 ED90 0A00       VLDR             s0 ,[r0]    ;s0 will hold chang
+                                                            ing value of varyin
+                                                            g x in series  and 
+                                                            s29 is a temporary 
+                                                            register for it
+   82 000000D8 ED90 2A00       VLDR             s4 ,[r0]
+   83 000000DC EDD0 2A00       VLDR             s5 ,[r0]
+   84 000000E0 ED90 3A00       VLDR             s6 ,[r0]
+   85 000000E4 EDD0 3A00       VLDR             s7 ,[r0]
+   86 000000E8 EDD0 FA00       VLDR             s31 ,[r0]   ;All registers are 
+                                                            initialized to 1
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   87 000000EC ED90 FA00       VLDR             s30 ,[r0]
+   88 000000F0 EDD0 EA00       VLDR             s29 ,[r0]
+   89 000000F4 ED90 EA00       VLDR             s28 ,[r0]
+   90 000000F8 E029            B                SERIES
+   91 000000FA         ;s3 will have sum and s31 is a temporary register for it
+                       
+   92 000000FA         ;s5 will store divison value and s30 is a temporary regi
+                       ster for it
+   93 000000FA         ;s4 will store value of factorial and  s28 is a temporar
+                       y register for it
+   94 000000FA EE60 EA20 
+                       CHECK_SERIES_MULTIPLICATION
+                               VMUL.F32         s29 , s0 ,s1
+   95 000000FE EEF1 1A10       VMRS             r1 , FPSCR
+   96 00000102 F001 011C       AND              r1 ,  r1 , #28
+   97 00000106 2911            CMP              r1 , #17
+   98 00000108 BFB8            IT               LT
+   99 0000010A E023            BLT              FLOW1
+  100 0000010C E02B            B                STOP
+  101 0000010E EE72 FAA1 
+                       CHECK_SERIES_SUM_VALIDATION
+                               VADD.F32         s31 , s5 , s3
+  102 00000112 EEF1 1A10       VMRS             r1 , FPSCR  ;Storing FPSCR to R
+                                                            1 
+  103 00000116 F001 011C       AND              r1 ,  r1 , #28
+  104 0000011A 2911            CMP              r1 , #17    ;checking for under
+                                                            flow or overflow 
+  105 0000011C BFB8            IT               LT          ;Stop if invalid re
+                                                            sults        
+  106 0000011E E016            BLT              SERIES      ;same for all valid
+                                                            ations
+  107 00000120 E021            B                STOP
+  108 00000122 EE80 FA02 
+                       CHECK_DIVISION_VALIDATION
+                               VDIV.F32         s30 , s0 , s4
+  109 00000126 EEF1 1A10       VMRS             r1 , FPSCR
+  110 0000012A F001 011C       AND              r1 ,  r1 , #28
+  111 0000012E 2911            CMP              r1 , #17
+  112 00000130 BFB8            IT               LT
+  113 00000132 E015            BLT              FLOW3
+  114 00000134 E017            B                STOP
+  115 00000136         
+  116 00000136 EE22 EA03 
+                       CHECK_SERIES_FACTORIAL_VALIDATION
+                               VMUL.F32         s28 , s4 ,s6
+  117 0000013A EEF1 1A10       VMRS             r1 , FPSCR
+  118 0000013E EE33 3A23       VADD.F32         s6 , s6 , s7
+  119 00000142 F001 011C       AND              r1 ,  r1 , #28
+  120 00000146 2911            CMP              r1 , #17
+  121 00000148 BFB8            IT               LT
+  122 0000014A E006            BLT              FLOW2
+  123 0000014C E00B            B                STOP
+  124 0000014E         
+  125 0000014E EEF0 1A6F 
+                       SERIES  VMOV.F32         s3 ,s31     ; copy valid value 
+                                                            of s3 and s31 is a 
+                                                            temporary register
+  126 00000152         
+  127 00000152 E7D2            B                CHECK_SERIES_MULTIPLICATION
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  128 00000154 EEB0 0A6E 
+                       FLOW1   VMOV.F32         s0 , s29    ; copy valid value 
+                                                            to s0  and  s29 is 
+                                                            atemporary register
+                                                            
+  129 00000158         
+  130 00000158 E7ED            B                CHECK_SERIES_FACTORIAL_VALIDATI
+ON 
+                                                            ; 
+  131 0000015A         
+  132 0000015A EEB0 2A4E 
+                       FLOW2   VMOV.F32         s4  , s28   ; s4 stores factori
+                                                            al and s28 is a tem
+                                                            porary register
+  133 0000015E         
+  134 0000015E E7E0            B                CHECK_DIVISION_VALIDATION
+  135 00000160         
+  136 00000160 EEF0 2A4F 
+                       FLOW3   VMOV.F32         s5  , s30   ;s30 is a temporary
+                                                             register and s5 wi
+                                                            ll store value of d
+                                                            ivision
+  137 00000164         
+  138 00000164 E7D3            B                CHECK_SERIES_SUM_VALIDATION
+  139 00000166         
+  140 00000166 ED90 0A00 
+                       STOP    VLDR             s0 ,[r0]    ; stop program
+  141 0000016A EEC0 1A21       VDIV.F32         s3 , s0 ,s3
+  142 0000016E EE71 1A80       VADD.F32         s3 ,s3,s0
+  143 00000172 EEC0 1A21       VDIV.F32         s3 , s0 , s3
+  144 00000176 E7FF            B                OUTPUT
+  145 00000178         
+  146 00000178         
+  147 00000178 EEB6 8A00 
+                       OUTPUT  VLDR.F32         s16 , =0.5
+  148 0000017C F04F 5500       MOV              R5 ,#0X20000000
+  149 00000180 EDC5 1A00       VSTR             S3 ,[R5]
+  150 00000184 6828            LDR              R0 ,[R5]
+  151 00000186 F7FF FFFE       BL               printMSG
+  152 0000018A EEF4 1A48       VCMP.F32         s3 , s16
+  153 0000018E EEF1 1A10       VMRS             r1 , FPSCR  ;output is kept  in
+                                                             r0 .LOGIC LSL AND 
+                                                            CMP ARE APPLIED ON 
+                                                            FPSR FLAGS WHOOSE V
+                                                            ALUE IS IN R1
+  154 00000192 F04F 0201       MOV              r2 , #1
+  155 00000196 EA4F 72C2       LSL              r2 , r2 ,#31
+  156 0000019A EA01 0102       AND              r1 , r1, r2
+  157 0000019E 2900            CMP              r1 , #0
+  158 000001A0 BF8C            ITE              HI
+  159 000001A2 2000            MOVHI            r0 , #0
+  160 000001A4 2001            MOVLS            r0 , #1
+  161 000001A6 EA4F 0747       LSL              R7 , R7 ,#1
+  162 000001AA EA47 0700       ORR              R7 , R7 ,R0
+  163 000001AE F20F 0856       ADR.W            r8 , Table_Byte
+  164 000001B2 E8D8 F009       TBB              [r8 , r9 ]
+  165 000001B6 EEB7 0A00 
+                       input2  VLDR.F32         s0 , =1     ;X0 DATA
+  166 000001BA EDDF 0A1D       VLDR.F32         s1 , =0     ;X1 DATA
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  167 000001BE EEB7 1A00       VLDR.F32         s2 , =1     ;X2 DATA
+  168 000001C2 F109 0901       ADD              r9 , r9 , #1 ;r1 will take numb
+                                                            er to select logic 
+                                                            .0-Nand ,1-Nor like
+                                                             that    
+  169 000001C6 E727            B                startagain
+  170 000001C8         
+  171 000001C8 EEB7 0A00 
+                       input3  VLDR.F32         s0 , =1     ;X0 DATA
+  172 000001CC EEF7 0A00       VLDR.F32         s1 , =1     ;X1 DATA
+  173 000001D0 ED9F 1A17       VLDR.F32         s2 , =0     ;X2 DATA    
+  174 000001D4 F109 0901       ADD              r9 , r9 , #1 ;r1 will take numb
+                                                            er to select logic 
+                                                            .0-Nand ,1-Nor like
+                                                             that
+  175 000001D8 E71E            B                startagain
+  176 000001DA         
+  177 000001DA EEB7 0A00 
+                       input4  VLDR.F32         s0 , =1     ;X0 DATA
+  178 000001DE EEF7 0A00       VLDR.F32         s1 , =1     ;X1 DATA
+  179 000001E2 EEB7 1A00       VLDR.F32         s2 , =1     ;X2 DATA
+  180 000001E6 F109 0901       ADD              r9 , r9 , #1 ;r1 will take numb
+                                                            er to select logic 
+                                                            .0-Nand ,1-Nor like
+                                                             that
+  181 000001EA E715            B                startagain
+  182 000001EC         
+  183 000001EC         
+  184 000001EC 4638    stop    MOV              R0 , R7
+  185 000001EE F04F 0700       MOV              R7 ,#0
+  186 000001F2 F000 F800       BL               Printtruthtable
+  187 000001F6 F1BC 0F06       CMP              R12 ,#6
+  188 000001FA BF88            IT               HI
+  189 000001FC E002            BHI              stop1
+  190 000001FE F10C 0C01       ADD              R12 ,R12 ,#1
+  191 00000202 E709            B                startagain
+  192 00000204 E7FE    stop1   B                stop1
+  193 00000206         Table_Byte
+  194 00000206 00              DCB              0
+  195 00000207 09              DCB              ((input3-input2)/2)
+  196 00000208 12              DCB              ((input4-input2)/2)
+  197 00000209 1B              DCB              ((stop-input2)/2)
+  198 0000020A                 endfunc
+  199 0000020A                 end
+              00 00 3F19999A 
+              BF4CCCCD 
+              3E99999A 
+              BF333333 
+              3DCCCCCD 
+              BDCCCCCD 
+              3E4CCCCD 
+              BE4CCCCD 
+              3F333333 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\nn.d -o.\objects\nn.o -I.\RTE\_Target_1 -IC:\Keil_v5\
+ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\De
+vice\ARM\ARMCM4\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERS
+ION SETA 525" --predefine="_RTE_ SETA 1" --predefine="ARMCM4_FP SETA 1" --list=
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+.\listings\nn.lst NN.s
